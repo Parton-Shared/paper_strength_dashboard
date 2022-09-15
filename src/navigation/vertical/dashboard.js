@@ -14,16 +14,16 @@ export default [
         route: 'dashboard-analytics',
       },
       {
-        title: 'Dashboard',
-        route: null,
+        title: 'Monitoring',
+        route: 'dashboard-monitoring',
       },
       {
         title: 'Simulation',
-        route: null,
+        route: 'dashboard-simulation',
       },
       {
         title: 'Reports',
-        route: null,
+        route: 'dashboard-reports',
       },
     ],
   },
