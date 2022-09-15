@@ -1,8 +1,8 @@
 export default [
   {
-    title: 'Dashboards',
+    title: 'Modern-Karton',
     icon: 'HomeIcon',
-    tag: '2',
+    tag: '3',
     tagVariant: 'light-warning',
     children: [
       {
@@ -12,6 +12,18 @@ export default [
       {
         title: 'Analytics',
         route: 'dashboard-analytics',
+      },
+      {
+        title: 'Dashboard',
+        route: null,
+      },
+      {
+        title: 'Simulation',
+        route: null,
+      },
+      {
+        title: 'Reports',
+        route: null,
       },
     ],
   },

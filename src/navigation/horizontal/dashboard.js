@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Dashboards',
+    header: 'Modern-Karton',
     icon: 'HomeIcon',
     children: [
       {
@@ -12,6 +12,18 @@ export default [
         title: 'Analytics',
         route: 'dashboard-analytics',
         icon: 'ActivityIcon',
+      },
+      {
+        title: 'Dashboard',
+        route: null,
+      },
+      {
+        title: 'Simulation',
+        route: null,
+      },
+      {
+        title: 'Reports',
+        route: null,
       },
     ],
   },
