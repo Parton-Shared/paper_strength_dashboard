@@ -12,6 +12,7 @@
     <b-button
         v-ripple.400="'rgba(113, 102, 240, 0.15)'"
         variant="success"
+        :to="{ path: 'simulation' }"
     >
       Go Simulate
     </b-button>

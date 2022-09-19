@@ -38,6 +38,7 @@
       />
       <span>Profile</span>
     </b-dropdown-item>
+    <!--
     <b-dropdown-item
       :to="{ name: 'apps-email' }"
       link-class="d-flex align-items-center"
@@ -71,6 +72,7 @@
       />
       <span>Chat</span>
     </b-dropdown-item>
+    -->
 
     <b-dropdown-divider />
 
@@ -85,6 +87,8 @@
       />
       <span>Settings</span>
     </b-dropdown-item>
+
+    <!--
     <b-dropdown-item
       :to="{ name: 'pages-pricing' }"
       link-class="d-flex align-items-center"
@@ -107,6 +111,8 @@
       />
       <span>FAQ</span>
     </b-dropdown-item>
+    -->
+
     <b-dropdown-item
       link-class="d-flex align-items-center"
       @click="logout"
