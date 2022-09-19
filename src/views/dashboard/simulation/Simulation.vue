@@ -9,15 +9,9 @@
         <b-card-title
             class="mb-2"
         >
-          <h3 class="text-white mb-1">Active Production</h3>
+          <h3 class="text-white mb-1">Production Type</h3>
         </b-card-title>
         <form-select-standard/>
-        <statistic-card-horizontal
-            class="mt-2 mb-0"
-            icon="TagIcon"
-            statistic="5225816"
-            statistic-title="Production ID"
-        />
       </b-card>
 
       <b-row>
@@ -88,7 +82,7 @@
         <b-card-sub-title
           class="mb-4"
         >
-          Active parameters are displayed. You can change and simulate values.
+          Last production parameters are displayed. You can change and simulate values.
         </b-card-sub-title>
 
         <vue-perfect-scrollbar

@@ -8,7 +8,7 @@
         </h1>
       </div>
       <b-avatar
-        :variant="`light-${color}`"
+        :variant="`success`"
         size="45"
       >
         <feather-icon

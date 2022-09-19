@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Modern-Karton',
+    header: 'Paper Strength',
     icon: 'HomeIcon',
     children: [
       {

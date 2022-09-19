@@ -1,7 +1,7 @@
 export default [
   {
-    title: 'Modern-Karton',
-    icon: 'HomeIcon',
+    title: 'Paper Strength',
+    icon: 'FileIcon',
     tagVariant: 'light-warning',
     children: [
       {
@@ -17,5 +17,10 @@ export default [
         route: 'dashboard-reports',
       },
     ],
+  },
+  {
+    title: 'Paper Break',
+    icon: 'FileIcon',
+    route: '',
   },
 ]

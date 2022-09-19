@@ -18,9 +18,10 @@ export default {
       selected: null,
       codeStandard,
       options: [
-        { value: null, text: 'Please select production type' },
-        { value: 'a', text: 'FL80' },
-        { value: 'b', text: 'TL90' },
+        { value: null, text: 'Please select paper type' },
+        { value: 'a', text: '5225816' },
+        { value: 'b', text: '5225817' },
+        { value: 'c', text: '5225818' },
       ],
     }
   },

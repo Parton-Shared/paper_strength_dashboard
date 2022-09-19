@@ -1,15 +1,21 @@
 <template>
   <section>
-    <b-row>
+    <b-row class="match-height">
       <b-col md="4">
         <b-card
             class="bg-success">
+          <h6 class="text-white mt-1">Production Type</h6>
           <b-card-title
               class="mb-2"
           >
-            <h3 class="text-white mb-1">Active Production</h3>
+            <h1 class="text-white mb-1 text-bold">
+              <feather-icon
+                  icon="FileIcon"
+                  size="28"
+              />
+              FL80
+            </h1>
           </b-card-title>
-          <form-select-standard/>
           <statistic-card-horizontal
               class="mt-2 mb-0"
               icon="TagIcon"
@@ -100,7 +106,7 @@
 
 
 <script>
-import {BRow, BCol, BCard, BFormGroup, BFormInput, BFormCheckbox, BForm, BButton} from 'bootstrap-vue'
+import {BRow, BCol, BCard, BFormGroup, BFormInput, BFormCheckbox, BForm, BButton, BCardTitle} from 'bootstrap-vue'
 import StatisticCardVertical from './StatisticCardVertical.vue'
 import StatisticCardHorizontal from './StatisticCardHorizontal.vue'
 import EchartLine from './EchartLine.vue'
@@ -121,6 +127,7 @@ export default {
     BForm,
     BButton,
     BTable,
+    BCardTitle,
     FormSelectStandard,
     EchartLine,
     StatisticCardHorizontal,
