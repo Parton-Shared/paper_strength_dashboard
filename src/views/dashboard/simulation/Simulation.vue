@@ -90,88 +90,92 @@
         >
           Active parameters are displayed. You can change and simulate values.
         </b-card-sub-title>
-        <b-col cols="12">
-          <b-form-group
-              label="Back Layer Retantion Flow"
-              label-for="blrf"
-              label-cols="9"
-          >
-            <b-form-input
-                id="blrf"
-                class="text-right"
-                value="48,24"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col cols="12">
-          <b-form-group
-              label="Top Layer Retantion Flow"
-              label-for="tlrf"
-              label-cols="9"
-          >
-            <b-form-input
-                id="tlrf"
-                value="48,24"
-                class="text-right"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col cols="12">
-          <b-form-group
-              label="Back Layer Dye Flow"
-              label-for="bydf"
-              label-cols="9"
-          >
-            <b-form-input
-                id="bydf"
-                value="48,24"
-                class="text-right"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col cols="12">
-          <b-form-group
-              label="Top Layer Dye Flow"
-              label-for="tldf"
-              label-cols="9"
-          >
-            <b-form-input
-                id="tldf"
-                value="48,24"
-                class="text-right"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col cols="12">
-          <b-form-group
-              label="After Storage Long Ratio"
-              label-for="aslr"
-              label-cols="9"
-          >
-            <b-form-input
-                id="aslr"
-                value="48,24"
-                class="text-right"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col cols="12">
-          <b-form-group
-              label="Refiner 1 Effective Power"
-              label-for="r1ep"
-              label-cols="9"
-          >
-            <b-form-input
-                id="r1ep"
-                value="48,24"
-                class="text-right"
-            />
-          </b-form-group>
-        </b-col>
-        <!-- submit and reset -->
-        <b-col cols="12" class=" pt-3 text-right">
 
-        </b-col>
+        <vue-perfect-scrollbar
+            ref="refChatLogPS"
+            :settings="perfectScrollbarSettings"
+            class="simulate-parameters scroll-area"
+        >
+
+          <b-col cols="12">
+            <b-form-group
+                label="Back Layer Retantion Flow"
+                label-for="blrf"
+                label-cols="9"
+            >
+              <b-form-input
+                  id="blrf"
+                  class="text-right"
+                  value="48,24"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12">
+            <b-form-group
+                label="Top Layer Retantion Flow"
+                label-for="tlrf"
+                label-cols="9"
+            >
+              <b-form-input
+                  id="tlrf"
+                  value="48,24"
+                  class="text-right"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12">
+            <b-form-group
+                label="Back Layer Dye Flow"
+                label-for="bydf"
+                label-cols="9"
+            >
+              <b-form-input
+                  id="bydf"
+                  value="48,24"
+                  class="text-right"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12">
+            <b-form-group
+                label="Top Layer Dye Flow"
+                label-for="tldf"
+                label-cols="9"
+            >
+              <b-form-input
+                  id="tldf"
+                  value="48,24"
+                  class="text-right"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12">
+            <b-form-group
+                label="After Storage Long Ratio"
+                label-for="aslr"
+                label-cols="9"
+            >
+              <b-form-input
+                  id="aslr"
+                  value="48,24"
+                  class="text-right"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12">
+            <b-form-group
+                label="Refiner 1 Effective Power"
+                label-for="r1ep"
+                label-cols="9"
+            >
+              <b-form-input
+                  id="r1ep"
+                  value="48,24"
+                  class="text-right"
+              />
+            </b-form-group>
+          </b-col>
+        </vue-perfect-scrollbar>
       </b-card>
     </b-col>
   </b-row>
@@ -184,6 +188,7 @@ import FormSelectStandard from "./FormSelectStandard";
 import StatisticCardHorizontal from "./StatisticCardHorizontal.vue";
 import StatisticCardVertical from "./StatisticCardVertical.vue";
 import CardHeaderFooter from "./CardHeaderFooter.vue";
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 export default {
   components: {
@@ -201,10 +206,18 @@ export default {
     StatisticCardHorizontal,
     StatisticCardVertical,
     CardHeaderFooter,
+
+    // 3rd party
+    VuePerfectScrollbar,
   },
 
   data() {
-    return {}
+    return {
+      perfectScrollbarSettings: {
+        maxScrollbarLength: 150,
+        wheelPropagation: false,
+      },
+    }
   },
   methods: {
 

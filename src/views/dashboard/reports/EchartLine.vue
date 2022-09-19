@@ -4,6 +4,7 @@
       <div class="mb-1 mb-sm-0">
         <span class="text-muted">Commercial networks and enterprises</span>
       </div>
+      <!--
       <div class="d-flex align-content-center mb-1 mb-sm-0">
         <h1 class="font-weight-bolder ">
           $ 183,382
@@ -19,6 +20,7 @@
           </b-badge>
         </div>
       </div>
+      -->
     </div>
     <!-- echart -->
     <app-echart-line :option-data="option"/>

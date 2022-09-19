@@ -4,31 +4,35 @@
       <div class="mb-1 mb-sm-0">
         <span class="text-muted">Commercial networks and enterprises</span>
       </div>
-      <div class="d-flex align-content-center mb-1 mb-sm-0">
-        <h1 class="font-weight-bolder ">
-          $ 183,382
-        </h1>
-        <div class="pt-25 ml-75">
-          <b-badge variant="light-secondary">
-            <feather-icon
-              icon="ArrowDownIcon"
-              size="12"
-              class="text-danger align-middle"
-            />
-            <span class="font-weight-bolder align-middle"> 24%</span>
-          </b-badge>
-        </div>
+
+      <!--
+    <div class="d-flex align-content-center mb-1 mb-sm-0">
+      <h1 class="font-weight-bolder ">
+        $ 183,382
+      </h1>
+      <div class="pt-25 ml-75">
+        <b-badge variant="light-secondary">
+          <feather-icon
+            icon="ArrowDownIcon"
+            size="12"
+            class="text-danger align-middle"
+          />
+          <span class="font-weight-bolder align-middle"> 24%</span>
+        </b-badge>
       </div>
+      </div>
+
+      -->
     </div>
 
     <!-- echart -->
-    <app-echart-line :option-data="option" />
+    <app-echart-line :option-data="option"/>
 
   </b-card>
 </template>
 
 <script>
-import { BCard, BBadge } from 'bootstrap-vue'
+import {BCard, BBadge} from 'bootstrap-vue'
 import AppEchartLine from '@core/components/charts/echart/AppEchartLine.vue'
 
 export default {

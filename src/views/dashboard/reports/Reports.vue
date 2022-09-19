@@ -304,6 +304,7 @@ export default {
         {key: 'jid', label: 'Jumbo Id', sortable: true},
         {key: 'mx_jid', label: 'MX Jumbo ID', sortable: true},
         {key: 'grade_name', label: 'Grande Name', sortable: true},
+        {key: 'date', label: 'Date', sortable: true},
         'real_value',
         'prediction',
         'prediction_last',
@@ -321,39 +322,7 @@ export default {
           prediction_last: '84.41123',
           error: '8.123',
           error_last: '8.123',
-        },
-        {
-          jid: 123123123,
-          // eslint-disable-next-line global-require
-          mx_jid: "123123123",
-          grade_name: 'FL80',
-          real_value: '71,16',
-          prediction: '84.41123',
-          prediction_last: '84.41123',
-          error: '8.123',
-          error_last: '8.123',
-        },
-        {
-          jid: 123123123,
-          // eslint-disable-next-line global-require
-          mx_jid: "123123123",
-          grade_name: 'FL80',
-          real_value: '71,16',
-          prediction: '84.41123',
-          prediction_last: '84.41123',
-          error: '8.123',
-          error_last: '8.123',
-        },
-        {
-          jid: 123123123,
-          // eslint-disable-next-line global-require
-          mx_jid: "123123123",
-          grade_name: 'FL80',
-          real_value: '71,16',
-          prediction: '84.41123',
-          prediction_last: '84.41123',
-          error: '8.123',
-          error_last: '8.123',
+          date: '13 Sep 2022',
         },
       ],
     }

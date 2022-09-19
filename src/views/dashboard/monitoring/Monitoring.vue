@@ -45,6 +45,15 @@
       </b-col>
     </b-row>
 
+    <b-row class="match-height">
+      <b-col cols="6">
+        <echart-line/>
+      </b-col>
+      <b-col cols="6">
+        <echart-line/>
+      </b-col>
+    </b-row>
+
     <b-row>
       <b-col
           md="12">
@@ -54,7 +63,7 @@
             @refresh="refreshStop('cardAction')"
         >
           <b-row
-          class="mt-3">
+              class="mt-3">
             <b-col
                 xl="4"
             >
@@ -71,7 +80,7 @@
               <b-form @submit.prevent>
                 <b-row>
                   <b-col
-                    cols="12"
+                      cols="12"
                   >
                   </b-col>
                   <b-col cols="12">
@@ -84,15 +93,6 @@
           </b-row>
 
         </b-card-actions>
-      </b-col>
-    </b-row>
-
-    <b-row class="match-height">
-      <b-col cols="6">
-        <echart-line/>
-      </b-col>
-      <b-col cols="6">
-        <echart-line/>
       </b-col>
     </b-row>
   </section>
