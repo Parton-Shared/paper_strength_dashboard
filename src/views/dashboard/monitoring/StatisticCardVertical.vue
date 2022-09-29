@@ -1,5 +1,5 @@
 <template>
-  <b-card class="text-center">
+  <b-card v-if="data" class="text-center">
     <b-avatar
       class="mb-1"
       :variant="`light-${color}`"
@@ -12,9 +12,9 @@
     </b-avatar>
     <div class="truncate">
       <h3 class="mb-25 font-weight-bolder">
-        {{ statistic }}
+        {{ data.name }}
       </h3>
-      <h1 class="display-3">{{ statisticTitle }}</h1>
+      <h1 class="display-3">{{ data.value }}</h1>
     </div>
   </b-card>
 </template>
@@ -32,13 +32,9 @@ export default {
       type: String,
       required: true,
     },
-    statistic: {
-      type: [Number, String],
+    data: {
       required: true,
-    },
-    statisticTitle: {
-      type: String,
-      default: '',
+      default: () => {},
     },
     color: {
       type: String,

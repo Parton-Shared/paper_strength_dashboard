@@ -13,14 +13,13 @@
                   icon="FileIcon"
                   size="28"
               />
-              FL80
+              {{this.data.activeProdCard ? this.data.activeProdCard.paper_type : ''}}
             </h1>
           </b-card-title>
           <statistic-card-horizontal
               class="mt-2 mb-0"
               icon="TagIcon"
-              statistic="5225816"
-              statistic-title="Production ID"
+              :data="this.data.activeProdCard ? this.data.activeProdCard : {}"
           />
 
         </b-card>
@@ -29,34 +28,25 @@
           xl="4"
           md="4"
           sm="6"
+          v-for="(item, index) in this.data.predCards"
       >
         <statistic-card-vertical
             icon="CpuIcon"
-            statistic="CMT 30"
-            statistic-title="84.04"
-            color="secondary"
-        />
-      </b-col>
-      <b-col
-          xl="4"
-          md="4"
-          sm="6"
-      >
-        <statistic-card-vertical
-            icon="CpuIcon"
-            statistic="SCT CD"
-            statistic-title="1.18"
+            :data="item"
             color="secondary"
         />
       </b-col>
     </b-row>
 
     <b-row class="match-height">
-      <b-col cols="6">
-        <echart-line/>
-      </b-col>
-      <b-col cols="6">
-        <echart-line/>
+      <b-col cols="6" v-for="(item, index) in this.data.lineCharts">
+        <echart-line
+          :chartTitle="item.name"
+          chartSubTitle="Commercial networks"
+          :series="item ? item.predictions : [5]"
+          :categories="item ? item.timestamp : ['2022-08-26']"
+          :rangePicker="rangePicker"
+        />
       </b-col>
     </b-row>
 
@@ -144,56 +134,39 @@ export default {
         'DETAILS',
       ],
 
+      rangePicker: {
+        start: new Date(),
+        end: new Date(),
+      },
+
       items: [
-        {
-          parameter: 'Back Layer Retantion Flow', value: '47,62',
-        },
-        {
-          parameter: 'Top Layer Retantion Flow', value: '36,22',
-        },
-        {
-          parameter: 'Back Layer Dye Flow', value: '0,00',
-        },
-        {
-          parameter: 'Top Layer Dye Flow', value: '0,00',
-        },
-        {
-          parameter: 'After Storage Long Ratio', value: '27,86',
-        },
-        {
-          parameter: 'Refiner 1 Effective Power', value: '0,00',
-        },
-        {
-          parameter: 'Refiner 2 Effective Power', value: '0,00',
-        },
-        {
-          parameter: 'Discfilter Speed', value: '27,97',
-        },
-        {
-          parameter: 'Top Deaerator Temperature', value: '44,81',
-        },
-        {
-          parameter: 'Top Layer HeadBox Consistency', value: '1,02',
-        },
-        {
-          parameter: 'Top layer WW1 Channel Consistensy', value: '0,29',
-        },
-        {
-          parameter: 'Back Layer Recovery Consumption', value: '200,27',
-        },
-        {
-          parameter: 'Back Layer Broke Consumption', value: '118,16',
-        },
-        {
-          parameter: 'Back Deaerator Temperature', value: '45,27',
-        },
-        {
-          parameter: 'Back Layer HeadBox Consistency', value: '1,12',
-        },
       ],
       hover: true,
+      
+      data: {},
+
     }
   },
+  created(){
+    this.$store.dispatch('dashboard/fetchMonitoring')
+        .then(({ data }) => {
+          console.log(data);
+          this.data = data;
+          this.rangePicker = {
+            start:  data.lineCharts[0].timestamp[0],
+            end: data.lineCharts[0].timestamp[data.lineCharts[0].timestamp.length - 1],
+          }
+
+          for(let i = 0; i < data.actParamsTable.Parameters.length; i++){
+            this.items.push(
+              {
+                "parameter": data.actParamsTable.Parameters[i], 
+                "value": data.actParamsTable.Values[i]
+              }
+            );
+          }
+        });
+    },
   methods: {
 
     // stop refreshing card in 3 sec
