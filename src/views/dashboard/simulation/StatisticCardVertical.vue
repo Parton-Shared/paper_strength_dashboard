@@ -12,9 +12,9 @@
     </b-avatar>
     <div class="truncate">
       <h3 class="mb-25 font-weight-bolder">
-        {{ statistic }}
+        {{ data.name }}
       </h3>
-      <h3 class="display-4">{{ statisticTitle }}</h3>
+      <h3 class="display-4">{{ data.value }}</h3>
     </div>
   </b-card>
 </template>
@@ -32,13 +32,9 @@ export default {
       type: String,
       required: true,
     },
-    statistic: {
-      type: [Number, String],
+    data: {
+      type: Object,
       required: true,
-    },
-    statisticTitle: {
-      type: String,
-      default: '',
     },
     color: {
       type: String,

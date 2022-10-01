@@ -11,29 +11,21 @@
         >
           <h3 class="text-white mb-1">Production Type</h3>
         </b-card-title>
-        <form-select-standard/>
+        <form-select-standard
+          :data="this.selectionData ? this.selectionData : []"
+          @switch="(grade_name) => do_switch(grade_name)"
+        />
       </b-card>
 
       <b-row>
         <b-col
             cols="6"
+            v-for="(item, index) in this.data.predCards"
         >
           <statistic-card-vertical
               icon="CpuIcon"
               statistic="CMT 30"
-              statistic-title="84.04"
-              color="secondary"
-          />
-        </b-col>
-        <b-col
-            cols="6"
-        >
-
-          <statistic-card-vertical
-              icon="CpuIcon"
-              statistic="SCT CD"
-              statistic-title="1.18"
-              color="secondary"
+              :data="item"
           />
         </b-col>
         <b-col
@@ -47,6 +39,7 @@
                       v-ripple.400="'rgba(113, 102, 240, 0.15)'"
                       block
                       variant="outline-primary"
+                      @click="$refs.params_form_invis_reset.click()"
                   >
                     Reset
                   </b-button>
@@ -58,6 +51,7 @@
                       v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                       block
                       variant="primary"
+                      @click="() => $refs.params_form_invis_submit.click()"
                   >
                     Simulate
                   </b-button>
@@ -90,85 +84,24 @@
             :settings="perfectScrollbarSettings"
             class="simulate-parameters scroll-area"
         >
-
-          <b-col cols="12">
-            <b-form-group
-                label="Back Layer Retantion Flow"
-                label-for="blrf"
-                label-cols="9"
-            >
-              <b-form-input
-                  id="blrf"
-                  class="text-right"
-                  value="48,24"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-                label="Top Layer Retantion Flow"
-                label-for="tlrf"
-                label-cols="9"
-            >
-              <b-form-input
-                  id="tlrf"
-                  value="48,24"
-                  class="text-right"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-                label="Back Layer Dye Flow"
-                label-for="bydf"
-                label-cols="9"
-            >
-              <b-form-input
-                  id="bydf"
-                  value="48,24"
-                  class="text-right"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-                label="Top Layer Dye Flow"
-                label-for="tldf"
-                label-cols="9"
-            >
-              <b-form-input
-                  id="tldf"
-                  value="48,24"
-                  class="text-right"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-                label="After Storage Long Ratio"
-                label-for="aslr"
-                label-cols="9"
-            >
-              <b-form-input
-                  id="aslr"
-                  value="48,24"
-                  class="text-right"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-                label="Refiner 1 Effective Power"
-                label-for="r1ep"
-                label-cols="9"
-            >
-              <b-form-input
-                  id="r1ep"
-                  value="48,24"
-                  class="text-right"
-              />
-            </b-form-group>
-          </b-col>
+          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+            <b-col cols="12" v-for="(item, index) in (data.lastParamsTable ? data.lastParamsTable.Parameters : [])">
+                <b-form-group
+                    :label="item"
+                    :label-for="item"
+                    label-cols="9"
+                >
+                  <b-form-input
+                      :id="`input-${index}`"
+                      v-model="form[item]"
+                      :value="data.lastParamsTable ? data.lastParamsTable.Values[index] : 0"
+                      class="text-right"
+                  />
+                </b-form-group>
+            </b-col>
+            <b-button type="submit" ref="params_form_invis_submit" style="display:none;">Submit</b-button>
+            <b-button type="reset" ref="params_form_invis_reset" style="display:none;">Reset</b-button>
+          </b-form>
         </vue-perfect-scrollbar>
       </b-card>
     </b-col>
@@ -211,10 +144,57 @@ export default {
         maxScrollbarLength: 150,
         wheelPropagation: false,
       },
+      show: true,
+      form: {
+
+      },
+      selectionData: [],
+      data: {},
+      paramsBackState: {},
     }
   },
+  created() {
+    this.$store.dispatch('dashboard/fetchPaperTypes')
+      .then(({data})=> {
+        this.selectionData = data.paperTypes;
+        this.$store.dispatch('dashboard/fetchSimulation', this.$store.getters["dashboard/getSelectedGradeName"])
+          .then(({data}) => {
+            this.data = data;
+            this.paramsBackState = this.data.lastParamsTable;
+            
+            for (let i = 0; i < this.data.lastParamsTable.Parameters.length; i++){
+              this.form[this.data.lastParamsTable.Parameters[i]] = this.data.lastParamsTable.Values[i];
+            }
+          }
+        );
+      })
+      .catch(error => {console.error(error);})
+  },
   methods: {
+    do_switch(grade_name){
+      this.$store.dispatch('dashboard/fetchSimulation', grade_name)
+          .then(({data}) => {
+            this.data = data;
+            this.paramsBackState = this.data.lastParamsTable;
+          }
+      );
+    },
+    onSubmit(event){
+      event.preventDefault();
+      // Todo: send POST request to API with form values to get simulation results.
+    },
+    onReset(event){
+      event.preventDefault();
+      console.log(this.form);
+      for(let i = 0; i < this.paramsBackState.Parameters.length; i++){
+        this.form[this.paramsBackState.Parameters[i]] = this.paramsBackState.Values[i];
+      }
 
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    },
     // stop refreshing card in 3 sec
     refreshStop(cardName) {
       setTimeout(() => {

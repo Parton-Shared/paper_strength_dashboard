@@ -7,9 +7,11 @@ export default {
     monitoring: null,
     simulation: null,
     report: null,
+    grade_names: null,
+    selected_grade_name: null
   },
   getters: {
-    // getAPIUrl: state => state.API_URL,
+    getSelectedGradeName: state => state.selected_grade_name,
   },
   mutations: {
     UPDATE_MONITORING(state, val) {
@@ -21,6 +23,12 @@ export default {
     UPDATE_REPORT(state, val) {
       state.report = val
     },
+    UPDATE_GRADE_NAMES(state, val){
+      state.grade_names = val;
+    },
+    UPDATE_SELECTED_GRADE_NAME(state, val){
+      state.selected_grade_name = val;
+    }
   },
   actions: {
     fetchMonitoring() {
@@ -37,17 +45,23 @@ export default {
           .catch(error => reject(error))
       })
     },
-    fetchSimulation(grade_name) {
+    fetchSimulation(context, grade_name) {
       return new Promise((resolve, reject) => {
         axios
-          .get("http://35.157.144.4:8892" + "/simulation" + `/${grade_name}`, {
+          .get("http://35.157.144.4:8892" + "/simulation", {
             headers: {
               // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGluX2Rhc2gifQ.EByQxie39Qs6TTJSc8efcvxQzoY2YAMCk3q87MsVeAE',
               Accept: '*/*',
               'Access-Control-Allow-Origin': '*',
+            },
+            params: {
+              paper_type: grade_name
             }
           })
-          .then(response => resolve(response))
+          .then((response) => {
+            context.commit("UPDATE_SELECTED_GRADE_NAME", grade_name);
+            resolve(response);
+          })
           .catch(error => reject(error))
       })
     },
@@ -66,6 +80,26 @@ export default {
             },
           })
           .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
+    fetchPaperTypes(context) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get("http://35.157.144.4:8892" + "/filters/paper-type", {
+            headers: {
+              // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGluX2Rhc2gifQ.EByQxie39Qs6TTJSc8efcvxQzoY2YAMCk3q87MsVeAE',
+              Accept: '*/*',
+              'Access-Control-Allow-Origin': '*',
+            }
+          })
+          .then((response) => {
+            context.commit("UPDATE_GRADE_NAMES", response.data.paperTypes);
+            if (!context.state.selected_grade_name){
+                context.commit("UPDATE_SELECTED_GRADE_NAME", response.data.paperTypes[0])
+            }
+            return resolve(response);
+          })
           .catch(error => reject(error))
       })
     },

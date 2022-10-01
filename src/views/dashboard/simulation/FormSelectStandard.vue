@@ -2,6 +2,8 @@
   <b-form-select
       v-model="selected"
       :options="options"
+      @input="(value) => $emit('switch', value)"
+      @change="(value) => $emit('switch', value)"
   />
 </template>
 
@@ -13,17 +15,30 @@ export default {
   components: {
     BFormSelect,
   },
+  props: {
+    data: {
+      required: true,
+      type: Array,
+      default: () => []
+    }
+  },
+  watch: {
+    data() {
+      this.data.forEach(item => {this.options.push({value:item, text:item})})
+      this.selected = this.$store.getters["dashboard/getSelectedGradeName"];
+    }
+  },
   data() {
     return {
-      selected: null,
+      selected: this.$store.getters["dashboard/getSelectedGradeName"] 
+        ? [this.$store.getters["dashboard/getSelectedGradeName"]]
+        : null,
       codeStandard,
       options: [
-        { value: null, text: 'Please select paper type' },
-        { value: 'a', text: '5225816' },
-        { value: 'b', text: '5225817' },
-        { value: 'c', text: '5225818' },
+        { value: null, text: 'Please select paper type', disabled:true},
       ],
     }
   },
+
 }
 </script>
