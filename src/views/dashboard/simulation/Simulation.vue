@@ -116,6 +116,7 @@ import StatisticCardHorizontal from "./StatisticCardHorizontal.vue";
 import StatisticCardVertical from "./StatisticCardVertical.vue";
 import CardHeaderFooter from "./CardHeaderFooter.vue";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import axios from '@/libs/axios'
 
 export default {
   components: {
@@ -145,6 +146,7 @@ export default {
         wheelPropagation: false,
       },
       show: true,
+      ids: {},
       form: {
 
       },
@@ -161,7 +163,7 @@ export default {
           .then(({data}) => {
             this.data = data;
             this.paramsBackState = this.data.lastParamsTable;
-            
+            this.ids = this.data.lastParamsTable.Id
             for (let i = 0; i < this.data.lastParamsTable.Parameters.length; i++){
               this.form[this.data.lastParamsTable.Parameters[i]] = this.data.lastParamsTable.Values[i];
             }
@@ -181,7 +183,26 @@ export default {
     },
     onSubmit(event){
       event.preventDefault();
-      // Todo: send POST request to API with form values to get simulation results.
+      let submitData = {};
+      const rows = this.ids.length;
+
+      for (let i = 0; i < rows; i++){
+        submitData[this.ids[i]] = {"0": this.form[Object.keys(this.form)[i]]}
+      }
+
+      console.log(JSON.stringify(submitData));
+      axios.post( 
+        `http://35.157.144.4:8999/strength/${this.$store.getters["dashboard/getSelectedGradeName"]}`,
+        {
+            headers: {
+              Accept: '*/*',
+              'Access-Control-Allow-Origin': '*',
+            },
+            data: JSON.stringify(submitData)
+        }
+      ).then(({data}) => {
+        console.log(data);
+      })
     },
     onReset(event){
       event.preventDefault();

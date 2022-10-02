@@ -22,7 +22,11 @@
           >
             <h5 class="mb-1">Production Type</h5>
           </b-card-title>
-          <form-select-standard/>
+          <form-select-standard
+            on="GradeName"
+            :data="this.grade_names"
+            @switch="(value) => do_switch_grade(value)"
+          />
         </b-card>
       </b-col>
       <b-col md="4">
@@ -32,7 +36,11 @@
           >
             <h5 class="mb-1">Production ID</h5>
           </b-card-title>
-          <form-select-standard/>
+          <form-select-standard
+            on="JumboId"
+            :data="this.jumbo_ids"
+            @switch="(value) => do_switch_jumbo(value)"
+          />
         </b-card>
       </b-col>
 
@@ -44,39 +52,26 @@
           xl="6"
           md="6"
           sm="6"
+          v-for="item in this.infoData.predCards"
       >
         <statistic-card-vertical
             icon="CpuIcon"
-            statistic="CMT 30"
-            statistic-title="84.04"
-            color="secondary"
-        />
-      </b-col>
-      <b-col
-          cols="6"
-          xl="6"
-          md="6"
-          sm="6"
-      >
-        <statistic-card-vertical
-            icon="CpuIcon"
-            statistic="SCT CD"
-            statistic-title="1.18"
+            :statistic="item.name"
+            :statistic-title="item.value.toString()"
             color="secondary"
         />
       </b-col>
     </b-row>
 
-    <b-row class="match-height">
-      <b-col
-          xl="6"
-          md="12">
-        <echart-line/>
-      </b-col>
-      <b-col
-          xl="6"
-          md="12">
-        <echart-line/>
+    <b-row class="match-height" v-if="this.infoData.lineCharts">
+      <b-col cols="6" v-for="(item, index) in this.infoData.lineCharts">
+        <echart-line
+          :chartTitle="item.name"
+          chartSubTitle="Commercial networks"
+          :series="item.predictions"
+          :categories="item.date"
+          :rangePicker="rangePicker"
+        />
       </b-col>
     </b-row>
 
@@ -286,9 +281,16 @@ export default {
 
   data() {
     return {
+      grade_names: [],
+      jumbo_ids: [],
+      infoData: {},
+      rangePicker: {
+        start: new Date(),
+        end: new Date(),
+      },
       perPage: 10,
       pageOptions: [10, 50, 100],
-      totalRows: 1,
+      totalRows: 0,
       currentPage: 1,
       sortBy: '',
       sortDesc: false,
@@ -301,31 +303,20 @@ export default {
         content: '',
       },
       fields: [
-        {key: 'jid', label: 'Jumbo Id', sortable: true},
-        {key: 'mx_jid', label: 'MX Jumbo ID', sortable: true},
-        {key: 'grade_name', label: 'Grande Name', sortable: true},
-        {key: 'date', label: 'Date', sortable: true},
-        'real_value',
-        'prediction',
-        'prediction_last',
-        'error',
-        'error_last',
+        
       ],
       items: [
-        {
-          jid: 123123123,
-          // eslint-disable-next-line global-require
-          mx_jid: "123123123",
-          grade_name: 'FL80',
-          real_value: '71,16',
-          prediction: '84.41123',
-          prediction_last: '84.41123',
-          error: '8.123',
-          error_last: '8.123',
-          date: '13 Sep 2022',
-        },
+        
       ],
     }
+  },
+  async created() {
+    let response = await this.$store.dispatch("dashboard/fetchPaperTypes");
+    this.grade_names = response.data.paperTypes;
+
+    response = await this.$store.dispatch("dashboard/fetchJumboIds", this.$store.getters["dashboard/getSelectedGradeName"]);
+    this.jumbo_ids = response.data.jumboID;
+          
   },
   computed: {
     sortOptions() {
@@ -340,6 +331,34 @@ export default {
     this.totalRows = this.items.length
   },
   methods: {
+    do_switch_grade(value) {
+      if (this.$store.getters["dashboard/getGradeNames"].includes(value)){
+        this.$store.commit("dashboard/UPDATE_SELECTED_GRADE_NAME", value);
+        this.$store.dispatch("dashboard/fetchJumboIds", value)
+          .then(({data}) => {
+            this.jumbo_ids = data.jumboID;
+          });
+      }
+    },
+    do_switch_jumbo(value){
+      let grade_name = this.$store.getters["dashboard/getSelectedGradeName"]
+      let jumbo_id = value;
+
+      this.$store.commit("dashboard/UPDATE_SELECTED_JUMBO_ID", value);
+      this.$store.dispatch("dashboard/fetchReport", {grade_name, jumbo_id})
+        .then(({data}) => {
+          console.log(data);
+          this.infoData = data;
+          this.rangePicker = {
+            start:  data.lineCharts[0].date[0],
+            end: data.lineCharts[0].date[data.lineCharts[0].date.length - 1],
+          }
+          this.totalRows = data.table.rows.length;
+          this.fields = data.table.titles;
+          this.items = data.table.rows;
+        });
+      
+    },
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`
       this.infoModal.content = JSON.stringify(item, null, 2)

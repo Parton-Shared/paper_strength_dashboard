@@ -83,11 +83,11 @@ export default {
   watch: {
     series() {
       this.apexChartData.series.data = this.series
-      this.$refs.line.refresh()
+      this.$refs.chart.refresh()
     },
     xAxisData() {
       this.apexChartData.chartOptions.xaxis.categories = this.categories
-      this.$refs.line.refresh()
+      this.$refs.chart.refresh()
     },
   },
   data() {

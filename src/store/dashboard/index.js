@@ -8,10 +8,14 @@ export default {
     simulation: null,
     report: null,
     grade_names: null,
-    selected_grade_name: null
+    jumbo_ids: null,
+    selected_grade_name: null,
+    selected_jumbo_id: null
   },
   getters: {
+    getGradeNames: state => state.grade_names,
     getSelectedGradeName: state => state.selected_grade_name,
+    getSelectedJumboId: state => state.selected_jumbo_id,
   },
   mutations: {
     UPDATE_MONITORING(state, val) {
@@ -26,8 +30,14 @@ export default {
     UPDATE_GRADE_NAMES(state, val){
       state.grade_names = val;
     },
+    UPDATE_JUMBO_IDS(state, val){
+      state.jumbo_ids = val;
+    },
     UPDATE_SELECTED_GRADE_NAME(state, val){
       state.selected_grade_name = val;
+    },
+    UPDATE_SELECTED_JUMBO_ID(state, val){
+      state.selected_jumbo_id = val;
     }
   },
   actions: {
@@ -65,7 +75,7 @@ export default {
           .catch(error => reject(error))
       })
     },
-    fetchReport(grade_name, jumbo_id) {
+    fetchReport(context, query) {
       return new Promise((resolve, reject) => {
         axios
           .get("http://35.157.144.4:8892" + "/reports", {
@@ -75,8 +85,8 @@ export default {
               'Access-Control-Allow-Origin': '*',
             },
             params: {
-              grade_name: grade_name,
-              jumbo_id: jumbo_id,
+              paper_type: query.grade_name,
+              jumbo: query.jumbo_id,
             },
           })
           .then(response => resolve(response))
@@ -103,5 +113,26 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchJumboIds(context, grade_name) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get("http://35.157.144.4:8892" + "/filters/jumbo-id", {
+            headers: {
+              // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGluX2Rhc2gifQ.EByQxie39Qs6TTJSc8efcvxQzoY2YAMCk3q87MsVeAE',
+              Accept: '*/*',
+              'Access-Control-Allow-Origin': '*',
+            },
+            params: {
+              paper_type: grade_name
+            }
+          })
+          .then((response) => {
+            context.commit("UPDATE_JUMBO_IDS", response.data.jumboID);
+            context.commit("UPDATE_SELECTED_JUMBO_ID", response.data.jumboID[0])
+            return resolve(response);
+          })
+          .catch(error => reject(error))
+      })
+    }
   },
 }

@@ -24,6 +24,7 @@ export default {
   },
   watch: {
     data() {
+      this.options = this.options.slice(0, 1);
       this.data.forEach(item => {this.options.push({value:item, text:item})})
       this.selected = this.$store.getters["dashboard/getSelectedGradeName"];
     }
