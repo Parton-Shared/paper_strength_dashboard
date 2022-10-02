@@ -179,6 +179,9 @@ export default {
           .then(({data}) => {
             this.data = data;
             this.paramsBackState = this.data.lastParamsTable;
+            for (let i = 0; i < this.data.lastParamsTable.Parameters.length; i++){
+              this.form[this.data.lastParamsTable.Parameters[i]] = this.data.lastParamsTable.Values[i];
+            }
           }
       );
     },
