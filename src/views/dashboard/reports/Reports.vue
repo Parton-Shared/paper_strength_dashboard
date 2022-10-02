@@ -53,6 +53,7 @@
           md="6"
           sm="6"
           v-for="item in this.infoData.predCards"
+          key="index"
       >
         <statistic-card-vertical
             icon="CpuIcon"
@@ -64,7 +65,7 @@
     </b-row>
 
     <b-row class="match-height" v-if="this.infoData.lineCharts">
-      <b-col cols="6" v-for="(item, index) in this.infoData.lineCharts">
+      <b-col cols="6" v-for="(item, index) in this.infoData.lineCharts" :key="index">
         <echart-line
           :chartTitle="item.name"
           chartSubTitle="Commercial networks"

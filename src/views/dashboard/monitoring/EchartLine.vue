@@ -82,12 +82,25 @@ export default {
   },
   watch: {
     series() {
-      this.apexChartData.series.data = this.series
-      this.$refs.chart.refresh()
+      console.log("im new !!!!")
+      console.log(this.series)
+      this.$refs.chart.updateSeries(
+        [
+          {
+            "name": this.chartTitle,
+            data: this.series,
+          }
+        ]
+      );
     },
-    xAxisData() {
-      this.apexChartData.chartOptions.xaxis.categories = this.categories
-      this.$refs.chart.refresh()
+    categories() {
+      this.$refs.chart.updateOptions({
+        xaxis: {
+          categories: this.categories,
+          type: 'datetime',
+          labels: { format: 'dd/MM HH:mm' },
+        }}
+      );
     },
   },
   data() {
@@ -155,9 +168,6 @@ export default {
             type: 'datetime',
             categories: this.categories,
             labels: { format: 'dd/MM HH:mm' },
-            axisTicks: {
-              // show: false,
-            },
           },
           yaxis: {
             labels: {

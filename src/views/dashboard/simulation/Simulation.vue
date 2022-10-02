@@ -21,6 +21,7 @@
         <b-col
             cols="6"
             v-for="(item, index) in this.data.predCards"
+            :key="index"
         >
           <statistic-card-vertical
               icon="CpuIcon"
@@ -85,7 +86,7 @@
             class="simulate-parameters scroll-area"
         >
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-            <b-col cols="12" v-for="(item, index) in (data.lastParamsTable ? data.lastParamsTable.Parameters : [])">
+            <b-col cols="12" v-for="(item, index) in (data.lastParamsTable ? data.lastParamsTable.Parameters : [])" :key="index">
                 <b-form-group
                     :label="item"
                     :label-for="item"

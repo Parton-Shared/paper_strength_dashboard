@@ -29,6 +29,7 @@
           md="4"
           sm="6"
           v-for="(item, index) in this.data.predCards"
+          :key="index"
       >
         <statistic-card-vertical
             icon="CpuIcon"
@@ -39,12 +40,12 @@
     </b-row>
 
     <b-row class="match-height">
-      <b-col cols="6" v-for="(item, index) in this.data.lineCharts">
+      <b-col cols="6" v-for="(item, index) in this.data.lineCharts" :key="index">
         <echart-line
           :chartTitle="item.name"
           chartSubTitle="Commercial networks"
-          :series="item ? item.predictions : [5]"
-          :categories="item ? item.timestamp : ['2022-08-26']"
+          :series="item.predictions"
+          :categories="item.timestamp"
           :rangePicker="rangePicker"
         />
       </b-col>
@@ -144,13 +145,23 @@ export default {
       hover: true,
       
       data: {},
-
+      intervalId: null,
+      lastJumboId: null,
     }
   },
   created(){
-    this.$store.dispatch('dashboard/fetchMonitoring')
+    window.addEventListener("beforeunload", this.leaving);
+    let func = (() => {
+      this.$store.dispatch('dashboard/fetchMonitoring')
         .then(({ data }) => {
           console.log(data);
+          if (this.lastJumboId 
+              && this.lastJumboId === data.activeProdCard.mx_jumbo_id 
+              && data.lineCharts[0].predictions.length === this.data.lineCharts[0].predictions.length
+             ) {
+            return;
+          }
+          this.lastJumboId = data.activeProdCard.mx_jumbo_id;
           this.data = data;
           this.rangePicker = {
             start:  data.lineCharts[0].timestamp[0],
@@ -166,9 +177,16 @@ export default {
             );
           }
         });
-    },
+    }).bind(this);
+    func();
+    this.intervalId = setInterval(func, 1000 * 60);
+  },
   methods: {
-
+    leaving(){
+      if (this.intervalId){
+        clearInterval(this.intervalId);
+      }
+    },
     // stop refreshing card in 3 sec
     refreshStop(cardName) {
       setTimeout(() => {
