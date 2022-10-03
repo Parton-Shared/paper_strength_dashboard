@@ -10,7 +10,7 @@
       </div>
       <!--/ title and subtitle -->
       <!-- datepicker -->
-      <div class="d-flex align-items-center">
+      <!-- <div class="d-flex align-items-center">
         <feather-icon
           icon="CalendarIcon"
           size="16"
@@ -21,7 +21,7 @@
           class="form-control flat-picker bg-transparent border-0 shadow-none"
           placeholder="YYYY-MM-DD"
         />
-      </div>
+      </div> -->
       <!-- datepicker -->
     </b-card-header>
 
@@ -60,11 +60,11 @@ export default {
   props: {
     chartTitle: {
       type: String,
-      default: 'Line Area Chart',
+      default: '',
     },
     chartSubTitle: {
       type: String,
-      default: 'Commercial networks',
+      default: '',
     },
     series: {
       type: Array,
@@ -74,11 +74,11 @@ export default {
       type: Array,
       required: true,
     },
-    rangePicker: {
-      type: Object,
-      default: () => {},
-      required: true,
-    },
+    // rangePicker: {
+    //   type: Object,
+    //   default: () => {},
+    //   required: true,
+    // },
   },
   watch: {
     series() {
@@ -120,11 +120,16 @@ export default {
           },
           stroke: {
             curve: 'straight',
+            width: 2.5,
           },
           grid: {
+            row: {
+              colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+              opacity: 0.5
+            },
             xaxis: {
               lines: {
-                show: false,
+                show: true,
               },
             },
             yaxis: {
@@ -136,7 +141,7 @@ export default {
           tooltip: {
             y: {
               formatter(val) {
-                return val
+                return val;
               }
             },
             x: {
@@ -155,13 +160,20 @@ export default {
             type: 'datetime',
             categories: this.categories,
             labels: { format: 'dd/MM HH:mm' },
-            axisTicks: {
-              // show: false,
+            axisBorder: {
+              show: true,
+              color: '#78909C',
+              offsetX: 0,
+              offsetY: 0
             },
           },
           yaxis: {
-            labels: {
-              show: false,
+            decimalsInFloat: 3,
+            axisBorder: {
+              show: true,
+              color: '#78909C',
+              offsetX: 0,
+              offsetY: 0
             },
           },
         },

@@ -52,8 +52,8 @@
           xl="6"
           md="6"
           sm="6"
-          v-for="item in this.infoData.predCards"
-          key="index"
+          v-for="(item, index) in this.infoData.predCards"
+          :key="index"
       >
         <statistic-card-vertical
             icon="CpuIcon"
@@ -67,8 +67,7 @@
     <b-row class="match-height" v-if="this.infoData.lineCharts">
       <b-col cols="6" v-for="(item, index) in this.infoData.lineCharts" :key="index">
         <echart-line
-          :chartTitle="item.name"
-          chartSubTitle="Commercial networks"
+          :chartTitle="item.title"
           :series="item.predictions"
           :categories="item.date"
           :rangePicker="rangePicker"
@@ -348,7 +347,6 @@ export default {
       this.$store.commit("dashboard/UPDATE_SELECTED_JUMBO_ID", value);
       this.$store.dispatch("dashboard/fetchReport", {grade_name, jumbo_id})
         .then(({data}) => {
-          console.log(data);
           this.infoData = data;
           this.rangePicker = {
             start:  data.lineCharts[0].date[0],

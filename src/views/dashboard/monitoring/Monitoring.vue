@@ -43,7 +43,6 @@
       <b-col cols="6" v-for="(item, index) in this.data.lineCharts" :key="index">
         <echart-line
           :chartTitle="item.name"
-          chartSubTitle="Commercial networks"
           :series="item.predictions"
           :categories="item.timestamp"
           :rangePicker="rangePicker"
@@ -154,7 +153,6 @@ export default {
     let func = (() => {
       this.$store.dispatch('dashboard/fetchMonitoring')
         .then(({ data }) => {
-          console.log(data);
           if (this.lastJumboId 
               && this.lastJumboId === data.activeProdCard.mx_jumbo_id 
               && data.lineCharts[0].predictions.length === this.data.lineCharts[0].predictions.length

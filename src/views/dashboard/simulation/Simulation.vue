@@ -20,12 +20,11 @@
       <b-row>
         <b-col
             cols="6"
-            v-for="(item, index) in this.data.predCards"
+            v-for="(item, index) in this.predData"
             :key="index"
         >
           <statistic-card-vertical
               icon="CpuIcon"
-              statistic="CMT 30"
               :data="item"
           />
         </b-col>
@@ -117,7 +116,8 @@ import StatisticCardHorizontal from "./StatisticCardHorizontal.vue";
 import StatisticCardVertical from "./StatisticCardVertical.vue";
 import CardHeaderFooter from "./CardHeaderFooter.vue";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import axios from '@/libs/axios'
+
+var axios = require('axios');
 
 export default {
   components: {
@@ -153,7 +153,9 @@ export default {
       },
       selectionData: [],
       data: {},
+      predData: [],
       paramsBackState: {},
+      predDataBackState: [],
     }
   },
   created() {
@@ -163,8 +165,11 @@ export default {
         this.$store.dispatch('dashboard/fetchSimulation', this.$store.getters["dashboard/getSelectedGradeName"])
           .then(({data}) => {
             this.data = data;
-            this.paramsBackState = this.data.lastParamsTable;
-            this.ids = this.data.lastParamsTable.Id
+            this.predData = data.predCards;
+            this.predDataBackState = data.predCards;
+            
+            this.paramsBackState = data.lastParamsTable;
+            this.ids = data.lastParamsTable.Id
             for (let i = 0; i < this.data.lastParamsTable.Parameters.length; i++){
               this.form[this.data.lastParamsTable.Parameters[i]] = this.data.lastParamsTable.Values[i];
             }
@@ -178,7 +183,11 @@ export default {
       this.$store.dispatch('dashboard/fetchSimulation', grade_name)
           .then(({data}) => {
             this.data = data;
+            this.predData = data.predCards;
+            this.predDataBackState = data.predCards;
+
             this.paramsBackState = this.data.lastParamsTable;
+            this.ids = data.lastParamsTable.Id
             for (let i = 0; i < this.data.lastParamsTable.Parameters.length; i++){
               this.form[this.data.lastParamsTable.Parameters[i]] = this.data.lastParamsTable.Values[i];
             }
@@ -194,26 +203,33 @@ export default {
         submitData[this.ids[i]] = {"0": this.form[Object.keys(this.form)[i]]}
       }
 
-      console.log(JSON.stringify(submitData));
-      axios.post( 
-        `http://35.157.144.4:8999/strength/${this.$store.getters["dashboard/getSelectedGradeName"]}`,
-        {
-            headers: {
-              Accept: '*/*',
-              'Access-Control-Allow-Origin': '*',
-            },
-            data: JSON.stringify(submitData)
-        }
-      ).then(({data}) => {
-        console.log(data);
-      })
+      var config = {
+        method: 'post',
+        url: 'http://35.157.144.4:8999/strength/FL80',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : JSON.stringify(submitData)
+      };
+
+      axios(config)
+      .then((function ({data}) {
+        let mp = []
+        Object.entries(data).forEach(([key, value]) => {
+          mp.push({name:key.toLocaleUpperCase(), value:value[0].toFixed(2)})
+        });
+        this.predData = mp;
+      }).bind(this))
+      .catch(function (error) {
+        console.error(error);
+      });
     },
     onReset(event){
       event.preventDefault();
-      console.log(this.form);
       for(let i = 0; i < this.paramsBackState.Parameters.length; i++){
         this.form[this.paramsBackState.Parameters[i]] = this.paramsBackState.Values[i];
       }
+      this.predData = this.predDataBackState;
 
       this.show = false
       this.$nextTick(() => {
