@@ -74,21 +74,49 @@ export default {
       type: Array,
       required: true,
     },
-    // rangePicker: {
-    //   type: Object,
-    //   default: () => {},
-    //   required: true,
+    // realValue: {
+    //   type: Number,
     // },
+    // axisPadding: {
+    //   type: Number,
+    //   required: true,
+    //   default: () => 0,
+    // }
   },
   watch: {
     series() {
-      this.apexChartData.series.data = this.series
-      this.$refs.chart.refresh()
+      this.$refs.chart.updateSeries(
+        [
+          {
+            name: this.chartTitle,
+            data: this.series,
+          }
+        ]
+      );
     },
-    xAxisData() {
-      this.apexChartData.chartOptions.xaxis.categories = this.categories
-      this.$refs.chart.refresh()
+    categories() {
+      this.$refs.chart.updateOptions({
+        xaxis: {
+          categories: this.categories,
+          type: 'datetime',
+          labels: { format: 'dd/MM HH:mm' },
+        }
+      });
     },
+    // realValue(){
+    //   this.$refs.chart.updateOptions({
+    //     annotations: {
+    //         yaxis: [
+    //           {
+    //             y: this.realValue,
+    //             label: {
+    //               text: "Real Value"
+    //             }
+    //           },
+    //         ]
+    //       },
+    //   });
+    // }
   },
   data() {
     return {
@@ -108,6 +136,18 @@ export default {
               show: false,
             },
           },
+          // annotations: {
+          //   yaxis: [
+          //     {
+          //       strokeDashArray: 1,
+          //       y: this.realValue,
+          //       label: {
+          //         text: "Real Value"
+          //       },
+          //       opacity: 0.8,
+          //     },
+          //   ]
+          // },
           markers: {
             strokeWidth: 7,
             strokeOpacity: 1,
@@ -168,6 +208,12 @@ export default {
             },
           },
           yaxis: {
+            // min: (function(min) {
+            //   return (this.realValue < min ? this.realValue - this.axisPadding : min - this.axisPadding)
+            // }).bind(this),
+            // max: (function(max) {
+            //   return (this.realValue > max ? this.realValue + this.axisPadding : max + this.axisPadding)
+            // }).bind(this),
             decimalsInFloat: 3,
             axisBorder: {
               show: true,

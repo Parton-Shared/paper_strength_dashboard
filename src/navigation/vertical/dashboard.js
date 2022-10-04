@@ -5,15 +5,15 @@ export default [
     tagVariant: 'light-warning',
     children: [
       {
-        title: 'Monitoring',
+        title: 'Smart Monitoring',
         route: 'dashboard-monitoring',
       },
       {
-        title: 'Simulation',
+        title: 'AI Engine',
         route: 'dashboard-simulation',
       },
       {
-        title: 'Reports',
+        title: 'AI Reports',
         route: 'dashboard-reports',
       },
     ],

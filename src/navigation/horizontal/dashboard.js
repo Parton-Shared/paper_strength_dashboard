@@ -4,25 +4,15 @@ export default [
     icon: 'HomeIcon',
     children: [
       {
-        title: 'eCommerce',
-        route: 'dashboard-ecommerce',
-        icon: 'ShoppingCartIcon',
-      },
-      {
-        title: 'Analytics',
-        route: 'dashboard-analytics',
-        icon: 'ActivityIcon',
-      },
-      {
-        title: 'Monitoring',
+        title: 'Smart Monitoring',
         route: 'dashboard-monitoring',
       },
       {
-        title: 'Simulation',
+        title: 'AI Engine',
         route: 'dashboard-simulation',
       },
       {
-        title: 'Reports',
+        title: 'AI Reports',
         route: 'dashboard-reports',
       },
     ],

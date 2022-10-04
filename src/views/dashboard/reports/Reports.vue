@@ -11,7 +11,7 @@
           </b-card-title>
           <b-card-text
               class="text-white">
-            With supporting text below as a natural lead-in.
+            AI-based smart production reports.
           </b-card-text>
         </b-card>
       </b-col>
@@ -70,7 +70,7 @@
           :chartTitle="item.title"
           :series="item.predictions"
           :categories="item.date"
-          :rangePicker="rangePicker"
+          :realValue="item.real"
         />
       </b-col>
     </b-row>
@@ -284,9 +284,10 @@ export default {
       grade_names: [],
       jumbo_ids: [],
       infoData: {},
-      rangePicker: {
-        start: new Date(),
-        end: new Date(),
+      chartPads: {
+        CMT30: 1,
+        SCTCD: 0.1,
+        BSTINDEX: 0.1,
       },
       perPage: 10,
       pageOptions: [10, 50, 100],
@@ -347,11 +348,8 @@ export default {
       this.$store.commit("dashboard/UPDATE_SELECTED_JUMBO_ID", value);
       this.$store.dispatch("dashboard/fetchReport", {grade_name, jumbo_id})
         .then(({data}) => {
+          console.log(data);
           this.infoData = data;
-          this.rangePicker = {
-            start:  data.lineCharts[0].date[0],
-            end: data.lineCharts[0].date[data.lineCharts[0].date.length - 1],
-          }
           this.totalRows = data.table.rows.length;
           this.fields = data.table.titles;
           this.items = data.table.rows;

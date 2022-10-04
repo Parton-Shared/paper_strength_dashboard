@@ -9,7 +9,7 @@
         <b-card-title
             class="mb-2"
         >
-          <h3 class="text-white mb-1">Production Type</h3>
+          <h3 class="text-white mb-1">Paper Type</h3>
         </b-card-title>
         <form-select-standard
           :data="this.selectionData ? this.selectionData : []"
@@ -53,7 +53,7 @@
                       variant="primary"
                       @click="() => $refs.params_form_invis_submit.click()"
                   >
-                    Simulate
+                    Predict
                   </b-button>
                 </div>
               </b-col>

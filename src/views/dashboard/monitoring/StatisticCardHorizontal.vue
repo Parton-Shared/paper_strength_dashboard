@@ -2,7 +2,7 @@
   <b-card v-if="data" no-body>
     <b-card-body class="d-flex justify-content-between align-items-center">
       <div class="truncate">
-        <span>{{ data.paper_type }}</span>
+        <span>Mx Jumbo ID</span>
         <h1 class="mb-25 font-weight-bolder">
           {{ data.mx_jumbo_id }}
         </h1>

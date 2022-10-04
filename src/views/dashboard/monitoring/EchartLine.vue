@@ -82,8 +82,6 @@ export default {
   },
   watch: {
     series() {
-      console.log("im new !!!!")
-      console.log(this.series)
       this.$refs.chart.updateSeries(
         [
           {
