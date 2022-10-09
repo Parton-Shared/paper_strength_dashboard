@@ -217,6 +217,7 @@
           <b-button
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="success"
+              @click="getCSV()"
           >
             Export
           </b-button>
@@ -252,6 +253,15 @@ import FormSelectStandard from './FormSelectStandard.vue'
 import CardHeaderFooter from './CardHeaderFooter.vue'
 import {BTable} from 'bootstrap-vue'
 
+// let FileSaver = require('file-saver');
+var axios = require('axios');
+
+function s2ab(s) {
+  var buf = new ArrayBuffer(s.length);
+  var view = new Uint8Array(buf);
+  for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+  return buf;
+}
 
 export default {
   components: {
@@ -353,9 +363,40 @@ export default {
           this.totalRows = data.table.rows.length;
           this.fields = data.table.titles;
           this.items = data.table.rows;
+        })
+        .catch((error) => {
+          console.error(error);
         });
       
     },
+    async getCSV(){
+      let paper_type = this.$store.getters["dashboard/getSelectedGradeName"];
+
+      axios.get('http://35.157.144.4:8892/reports/export', {
+        headers: {
+          Accept: '*/*',
+          'Access-Control-Allow-Origin': '*',
+        },
+        params: {
+          paper_type: paper_type
+        },
+        responseType: "blob"
+      }).then((response) => {
+        const link = document.createElement('a');
+
+        link.href = window.URL.createObjectURL(new Blob([response.data]));
+        link.setAttribute("download", "export.xlsx");
+
+        document.body.appendChild(link);
+        link.click();
+
+        window.URL.revokeObjectURL(link.href);
+        document.body.removeChild(link);
+      })
+
+      
+    },
+    
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`
       this.infoModal.content = JSON.stringify(item, null, 2)
