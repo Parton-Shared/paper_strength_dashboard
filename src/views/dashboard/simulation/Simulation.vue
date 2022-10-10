@@ -205,7 +205,7 @@ export default {
 
       var config = {
         method: 'post',
-        url: 'http://35.157.144.4:8999/strength/FL80',
+        url: `http://35.157.144.4:8999/strength/${this.$store.getters["dashboard/getSelectedGradeName"]}`,
         headers: { 
           'Content-Type': 'application/json'
         },
