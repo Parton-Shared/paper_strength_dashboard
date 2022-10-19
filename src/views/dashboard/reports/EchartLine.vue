@@ -199,7 +199,10 @@ export default {
           xaxis: {
             type: 'datetime',
             categories: this.categories,
-            labels: { format: 'dd/MM HH:mm' },
+            labels: { 
+              format: 'dd/MM HH:mm',
+              datetimeUTC: false, 
+            },
             axisBorder: {
               show: true,
               color: '#78909C',
@@ -214,7 +217,7 @@ export default {
             // max: (function(max) {
             //   return (this.realValue > max ? this.realValue + this.axisPadding : max + this.axisPadding)
             // }).bind(this),
-            decimalsInFloat: 3,
+            decimalsInFloat: 4,
             axisBorder: {
               show: true,
               color: '#78909C',

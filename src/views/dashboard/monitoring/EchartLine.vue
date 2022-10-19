@@ -170,7 +170,10 @@ export default {
           xaxis: {
             type: 'datetime',
             categories: this.categories,
-            labels: { format: 'dd/MM HH:mm' },
+            labels: { 
+              format: 'dd/MM HH:mm',
+              datetimeUTC: false,
+            },
             axisBorder: {
               show: true,
               color: '#78909C',
@@ -179,7 +182,7 @@ export default {
             },
           },
           yaxis: {
-            decimalsInFloat: 3,
+            decimalsInFloat: 4,
             axisBorder: {
               show: true,
               color: '#78909C',
