@@ -372,7 +372,7 @@ export default {
     async getCSV(){
       let paper_type = this.$store.getters["dashboard/getSelectedGradeName"];
 
-      axios.get('http://35.157.144.4:8892/reports/export', {
+      axios.get('http://3.124.98.111:9091/reports/export', {
         headers: {
           Accept: '*/*',
           'Access-Control-Allow-Origin': '*',

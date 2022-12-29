@@ -44,7 +44,7 @@ export default {
     fetchMonitoring() {
       return new Promise((resolve, reject) => {
         axios
-          .get("http://35.157.144.4:8892" + "/monitoring", {
+          .get("http://3.124.98.111:9091" + "/monitoring", {
             headers: {
               // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGluX2Rhc2gifQ.EByQxie39Qs6TTJSc8efcvxQzoY2YAMCk3q87MsVeAE',
               Accept: '*/*',
@@ -58,7 +58,7 @@ export default {
     fetchSimulation(context, grade_name) {
       return new Promise((resolve, reject) => {
         axios
-          .get("http://35.157.144.4:8892" + "/simulation", {
+          .get("http://3.124.98.111:9091" + "/simulation", {
             headers: {
               // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGluX2Rhc2gifQ.EByQxie39Qs6TTJSc8efcvxQzoY2YAMCk3q87MsVeAE',
               Accept: '*/*',
@@ -78,7 +78,7 @@ export default {
     fetchReport(context, query) {
       return new Promise((resolve, reject) => {
         axios
-          .get("http://35.157.144.4:8892" + "/reports", {
+          .get("http://3.124.98.111:9091" + "/reports", {
             headers: {
               // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGluX2Rhc2gifQ.EByQxie39Qs6TTJSc8efcvxQzoY2YAMCk3q87MsVeAE',
               Accept: '*/*',
@@ -96,7 +96,7 @@ export default {
     fetchPaperTypes(context) {
       return new Promise((resolve, reject) => {
         axios
-          .get("http://35.157.144.4:8892" + "/filters/paper-type", {
+          .get("http://3.124.98.111:9091" + "/filters/paper-type", {
             headers: {
               // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGluX2Rhc2gifQ.EByQxie39Qs6TTJSc8efcvxQzoY2YAMCk3q87MsVeAE',
               Accept: '*/*',
@@ -116,7 +116,7 @@ export default {
     fetchJumboIds(context, grade_name) {
       return new Promise((resolve, reject) => {
         axios
-          .get("http://35.157.144.4:8892" + "/filters/jumbo-id", {
+          .get("http://3.124.98.111:9091" + "/filters/jumbo-id", {
             headers: {
               // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGluX2Rhc2gifQ.EByQxie39Qs6TTJSc8efcvxQzoY2YAMCk3q87MsVeAE',
               Accept: '*/*',
