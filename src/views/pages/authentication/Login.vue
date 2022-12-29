@@ -47,6 +47,7 @@
             Please sign-in to your account and start the adventure
           </b-card-text>
 
+<!--
           <b-alert
             variant="primary"
             show
@@ -67,6 +68,7 @@
               style="top: 10; right: 10;"
             />
           </b-alert>
+-->
 
           <!-- form -->
           <validation-observer
@@ -93,7 +95,7 @@
                     v-model="userEmail"
                     :state="errors.length > 0 ? false:null"
                     name="login-email"
-                    placeholder="john@example.com"
+                    placeholder=""
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -251,8 +253,8 @@ export default {
   data() {
     return {
       status: '',
-      password: 'admin',
-      userEmail: 'admin@demo.com',
+      password: '',
+      userEmail: '',
       sideImg: require('@/assets/images/pages/login-v2.svg'),
 
       // validation rules

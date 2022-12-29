@@ -5,12 +5,12 @@ const data = {
   users: [
     {
       id: 1,
-      fullName: 'John Doe',
-      username: 'johndoe',
-      password: 'admin',
+      fullName: 'Modern Karton',
+      username: 'modernuser',
+      password: 'modern2023',
       // eslint-disable-next-line global-require
       avatar: require('@/assets/images/avatars/13-small.png'),
-      email: 'admin@demo.com',
+      email: 'modern@modernkarton.com',
       role: 'admin',
       ability: [
         {
@@ -21,30 +21,7 @@ const data = {
       extras: {
         eCommerceCartItemsCount: 5,
       },
-    },
-    {
-      id: 2,
-      fullName: 'Jane Doe',
-      username: 'janedoe',
-      password: 'client',
-      // eslint-disable-next-line global-require
-      avatar: require('@/assets/images/avatars/1-small.png'),
-      email: 'client@demo.com',
-      role: 'client',
-      ability: [
-        {
-          action: 'read',
-          subject: 'ACL',
-        },
-        {
-          action: 'read',
-          subject: 'Auth',
-        },
-      ],
-      extras: {
-        eCommerceCartItemsCount: 5,
-      },
-    },
+    }
   ],
 }
 
