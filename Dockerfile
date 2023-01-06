@@ -37,7 +37,7 @@ RUN yarn run build
 
 ### END STAGE - FINAL VUEXY APP SERVE IMAGE BUILD
 
-# get/use nginx to serve built web app in final image
+# get/use httpd to serve built web app in final image
 FROM ubuntu/apache2 AS final-image
 
 # specify the port to be exposed
