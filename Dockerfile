@@ -38,10 +38,19 @@ RUN yarn run build
 ### END STAGE - FINAL VUEXY APP SERVE IMAGE BUILD
 
 # get/use nginx to serve built web app in final image
-FROM nginx:stable-alpine AS final-image
+FROM ubuntu/apache2 AS final-image
 
 # specify the port to be exposed
 EXPOSE 80
 
-# copy the built web app into the nginx default directory
-COPY --from=build-env /home/node/dist /usr/share/nginx/html/
+# copy the built web app into the apache httpd default directory
+COPY --from=build-env /home/node/dist /var/www/html
+
+# copy htaccess file
+COPY ./.htaccess /var/www/html/.htaccess
+
+# activate a2enmod rewrite
+RUN a2enmod rewrite
+
+# copy modified httpd config file
+COPY ./my-apache2.conf /etc/apache2/sites-available/000-default.conf
